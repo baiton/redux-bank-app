@@ -9,17 +9,18 @@ import { Link } from 'react-router-dom';
 
 class UserList extends Component {
     render() {
+      console.log("props", this.props);
         let users = this.props.users.map((user) => {
             return (
-                <li key={user._id} className="list-group-item" onClick={() => this.props.selectUser(user._id)}>
+                <li key={user._id} className="list-group-item" onClick={() => this.props.selectUser(user)}>
                   <Link to={`/users/${user._id}`}>{user.name}</Link>
                 </li>
             );
         });
         return (
-            <div>
+            <div className="ml-4">
               <h5>Users with open accounts:</h5>
-              <ul>
+              <ul className="col-8">
                 {users}
               </ul>
             </div>
@@ -32,9 +33,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        selectUser: selectUser
-    }, dispatch)
+    return {
+      selectUser: function(userId){
+        dispatch(selectUser(userId))
+      }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectUser, selectAccount }  from '../actions/index';
+import { selectAccount }  from '../actions/index';
 //make sure action created flows through all reducers
 import { bindActionCreators } from 'redux';
 //import router Link
@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 
 
 class UserDetail extends Component {
-
   render() {
     if(!this.props.user) {
       return (
@@ -19,8 +18,8 @@ class UserDetail extends Component {
     //get user id from params of URL
     const { id } = this.props.match.params;
     //map over the accounts for the user to create links to them.
-    let accounts = this.props.user.accounts.map(account => {
-
+    console.log("user detail props", this.props);
+    let accounts = this.props.user.accounts.map((account) => {
       //creating a Link with the account type for
       //each account.
       return (
@@ -35,10 +34,10 @@ class UserDetail extends Component {
     return (
       <div className="col-md-6">
         <div className= "card">
-          <div className= "card-block">
-            <h4 className= "card-title">Account Information</h4>
-            <h6 className= "card-subtitle mb-2 text-muted">{this.props.user.name}</h6>
-            <div className= "card-text">
+          <div className= "card-block pl-3">
+            <h4 className= "card-title ">Account Information</h4>
+            <h6 className= "card-subtitle mb-2 text-muted ">{this.props.user.name}</h6>
+            <div className= "card-text ">
               <div>{this.props.user.email}</div>
               <div>{this.props.user.phone}</div>
               <div>{this.props.user.address}</div>
@@ -57,14 +56,16 @@ class UserDetail extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.selectedUser,
-    account: state.selectedAccount
+    user: state.selectedUser
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-  }, dispatch)
+    return {
+      selectAccount: function(accountInfo){
+        dispatch(selectAccount(accountInfo))
+      }
+    }
 }
 
 /*
